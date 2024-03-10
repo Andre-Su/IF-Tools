@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "487737399057",
+    "project_id": "if-tools-a4e80",
+    "storage_bucket": "if-tools-a4e80.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:487737399057:android:233ec5e64cbb5d93fbdeb0",
+        "android_client_info": {
+          "package_name": "com.andresc.if_tools"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDk0OS8NjZbeDmQ1auCnQQshFaMmqyQTI0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
