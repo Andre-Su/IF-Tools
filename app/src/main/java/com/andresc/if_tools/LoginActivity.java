@@ -26,6 +26,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         mAuth = FirebaseAuth.getInstance();
+        currentUser = mAuth.getCurrentUser();
 
         binding.btnLogin.setOnClickListener(v -> validateText());
         binding.textCreateAccount.setOnClickListener(v -> startActivity(new Intent(this, CreateAccountActivity.class)));
@@ -35,7 +36,6 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
-        currentUser = mAuth.getCurrentUser();
         if(currentUser != null){
             startActivity(new Intent(this, MainActivity.class));
             finish();
@@ -78,6 +78,8 @@ public class LoginActivity extends AppCompatActivity {
                        // update UI
                        Toast.makeText(this, "Login com sucesso!", Toast.LENGTH_SHORT).show();
                        binding.loadingBar.setVisibility(View.GONE);
+                       startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                       finish();
                    } else {
                        // failure
                        String message = (Objects.requireNonNull(task.getException()).getMessage());
