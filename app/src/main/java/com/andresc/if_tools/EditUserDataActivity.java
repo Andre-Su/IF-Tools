@@ -32,6 +32,7 @@ public class EditUserDataActivity extends AppCompatActivity {
         currentUser = mAuth.getCurrentUser();
 
         //TODO: Dividir as instâncias de username e imagem de perfil em partes independentes
+        //TODO: Adicionar campos com a classe usuario
 
         binding.imgBtnBack.setOnClickListener(v -> finish());
         binding.btnSendUpdate.setOnClickListener(v -> getData());
