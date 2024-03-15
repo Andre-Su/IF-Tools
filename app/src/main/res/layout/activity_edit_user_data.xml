@@ -43,15 +43,15 @@
         android:id="@+id/editUserName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
         android:layout_marginHorizontal="16dp"
-        android:paddingVertical="12dp"
-        android:paddingHorizontal="5dp"
+        android:layout_marginTop="5dp"
+        android:autofillHints="Username"
         android:hint="Nome de Usuário"
         android:inputType="textPersonName"
-        android:autofillHints="Username"
+        android:paddingHorizontal="5dp"
+        android:paddingVertical="12dp"
         android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnSendUsername"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textTitleUsername" />
 
@@ -68,15 +68,15 @@
         android:id="@+id/editUserPhoto"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
         android:layout_marginHorizontal="16dp"
-        android:paddingVertical="12dp"
-        android:paddingHorizontal="5dp"
+        android:layout_marginTop="5dp"
+        android:autofillHints="Phone Number"
         android:hint="Link da Imagem"
         android:inputType="textUri"
-        android:autofillHints="Phone Number"
+        android:paddingHorizontal="5dp"
+        android:paddingVertical="12dp"
         android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnSendPhotoUrl"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textTitleUserPhoto" />
 
@@ -104,5 +104,23 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editUserPhoto" />
+
+    <Button
+        android:id="@+id/btnSendUsername"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Enviar"
+        app:layout_constraintBottom_toBottomOf="@+id/editUserName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/editUserName" />
+
+    <Button
+        android:id="@+id/btnSendPhotoUrl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Enviar"
+        app:layout_constraintBottom_toBottomOf="@+id/editUserPhoto"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/editUserPhoto" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

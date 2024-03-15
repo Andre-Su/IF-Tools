@@ -42,30 +42,51 @@ public class EditUserDataActivity extends AppCompatActivity {
         binding.progressBar.setVisibility(View.VISIBLE);
         String username = binding.editUserName.getText().toString();
         String photoUrl = binding.editUserPhoto.getText().toString();
+        int send = 0;
+        switch (send){
+            case 1:
+                if (username.isEmpty()) {
+                binding.progressBar.setVisibility(View.GONE);
+                binding.editUserName.setError("Campo em  Branco");
+                binding.editUserName.requestFocus();
 
-        if (username.isEmpty()) {
-            binding.progressBar.setVisibility(View.GONE);
-            binding.editUserName.setError("Campo em  Branco");
-            binding.editUserName.requestFocus();
+            } else if (username.length()<3) {
+                binding.progressBar.setVisibility(View.GONE);
+                binding.editUserName.setError("Menos de 3 dígitos");
+                binding.editUserName.requestFocus();
+            } else {
 
-        } else if (username.length()<3) {
-            binding.progressBar.setVisibility(View.GONE);
-            binding.editUserName.setError("Menos de 3 dígitos");
-            binding.editUserName.requestFocus();
+                }
+                break;
+            case 2:
+                if (photoUrl.isEmpty()) {
+                    binding.progressBar.setVisibility(View.GONE);
+                    binding.editUserPhoto.setError("Campo em Branco");
+                    binding.editUserPhoto.requestFocus();
 
-        } else if (photoUrl.isEmpty()) {
-            binding.progressBar.setVisibility(View.GONE);
-            binding.editUserPhoto.setError("Campo em Branco");
-            binding.editUserPhoto.requestFocus();
+                } else if (!Patterns.WEB_URL.matcher(photoUrl).matches()) {
+                    binding.progressBar.setVisibility(View.GONE);
+                    binding.editUserPhoto.setError("URL inválido");
+                    binding.editUserPhoto.requestFocus();
 
-        } else if (!Patterns.WEB_URL.matcher(photoUrl).matches()) {
-            binding.progressBar.setVisibility(View.GONE);
-            binding.editUserPhoto.setError("URL inválido");
-            binding.editUserPhoto.requestFocus();
+                } else {
+                    sendRequestUpdate(username, photoUrl);
+                }
+                break;
 
-        } else {
-            sendRequestUpdate(username, photoUrl);
         }
+
+    }
+
+    private void createUsernameRequest(String username){
+        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                .setDisplayName(username)
+                .build();
+    }
+    private void createPhotoRequest(String username){
+        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                .setDisplayName(username)
+                .build();
     }
 
     private void sendRequestUpdate(String username, String photoUrl){
