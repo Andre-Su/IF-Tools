@@ -8,6 +8,9 @@ import android.os.Handler;
 
 import com.andresc.if_tools.databinding.ActivitySplashBinding;
 
+import java.lang.reflect.Array;
+import java.util.Objects;
+
 public class SplashActivity extends AppCompatActivity {
 
     private ActivitySplashBinding binding;

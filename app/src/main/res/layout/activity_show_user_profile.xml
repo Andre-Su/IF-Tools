@@ -1,10 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context=".ShowUserProfileActivity">
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btnEditData"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginVertical="20dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:contentDescription="editar dados"
+        android:src="@android:drawable/ic_menu_edit"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <ImageView
         android:id="@+id/imgBtnBack"
@@ -88,13 +106,36 @@
         app:layout_constraintTop_toBottomOf="@+id/textTitleUserPhoto" />
 
     <TextView
+        android:id="@+id/textTitleCreationTimestamp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Criado em"
+        app:layout_constraintStart_toStartOf="@+id/textUserPhone"
+        app:layout_constraintTop_toBottomOf="@+id/textUserPhone" />
+
+    <TextView
+        android:id="@+id/textCreationTimestamp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginHorizontal="16dp"
+        android:paddingVertical="5dp"
+        android:paddingHorizontal="5dp"
+        android:text="sem dados"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textTitleCreationTimestamp" />
+
+    <TextView
         android:id="@+id/textTitleUserEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:text="Email"
         app:layout_constraintStart_toStartOf="@+id/textUserEmail"
-        app:layout_constraintTop_toBottomOf="@+id/textUserPhone" />
+        app:layout_constraintTop_toBottomOf="@+id/textCreationTimestamp" />
 
     <TextView
         android:id="@+id/textUserEmail"
@@ -111,25 +152,16 @@
         app:layout_constraintTop_toBottomOf="@+id/textTitleUserEmail" />
 
     <Button
-        android:id="@+id/btnEditData"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="48dp"
-        android:text="Editar"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/btnReload" />
-
-    <Button
         android:id="@+id/btnReload"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="48dp"
-        android:layout_marginTop="72dp"
+        android:layout_marginVertical="80dp"
         android:text="Atualizar"
         android:textSize="16sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textUserEmail" />
 
@@ -146,3 +178,4 @@
         app:layout_constraintTop_toBottomOf="@+id/textUserEmail" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

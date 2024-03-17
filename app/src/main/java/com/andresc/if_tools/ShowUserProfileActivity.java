@@ -44,6 +44,8 @@ public class ShowUserProfileActivity extends AppCompatActivity {
         Uri photoUrl = currentUser.getPhotoUrl();
 
         assert userEmail != null;
+        assert userName != null;
+        assert userPhoneNumber != null;
         updateUserUI(userEmail, userName,userPhoneNumber,photoUrl);
 
         binding.progressBar.setVisibility(View.GONE);
@@ -58,12 +60,13 @@ public class ShowUserProfileActivity extends AppCompatActivity {
         if (!userPhoneNumber.isEmpty()) binding.textUserPhone.setText(userPhoneNumber);
         else binding.textUserPhone.setText("sem dados");
 
-        Picasso.get()
-                .load(photoUrl)
-                .placeholder(R.drawable.icon_account_circle)
-                .error(R.drawable.icon_account_circle)
-                .into(binding.imgProfilePicture);
-
+        if(!(photoUrl == null)) {
+            Picasso.get()
+                    .load(photoUrl)
+                    .placeholder(R.drawable.icon_account_circle)
+                    .error(R.drawable.icon_account_circle)
+                    .into(binding.imgProfilePicture);
+        }
         binding.progressBar.setVisibility(View.GONE);
     }
 }

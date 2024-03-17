@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.core.widget.NestedScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fillViewport="true"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     tools:context=".EditUserDataActivity">
 
     <ImageView
@@ -12,10 +16,10 @@
         android:layout_height="50dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="16dp"
+        app:srcCompat="@drawable/icon_arrow_back_30"
         android:contentDescription="botão voltar"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/icon_arrow_back_30" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textTitle"
@@ -34,9 +38,10 @@
         android:id="@+id/textTitleUsername"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
         android:layout_marginTop="32dp"
         android:text="Nome"
-        app:layout_constraintStart_toStartOf="@+id/editUserName"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textTitle" />
 
     <EditText
@@ -51,7 +56,7 @@
         android:paddingHorizontal="5dp"
         android:paddingVertical="12dp"
         android:textSize="18sp"
-        app:layout_constraintEnd_toStartOf="@+id/btnSendUsername"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textTitleUsername" />
 
@@ -59,39 +64,23 @@
         android:id="@+id/textTitleUserPhoto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
         android:layout_marginTop="20dp"
         android:text="Imagem de Perfil"
-        app:layout_constraintStart_toStartOf="@+id/editUserPhoto"
-        app:layout_constraintTop_toBottomOf="@+id/editUserName" />
-
-    <EditText
-        android:id="@+id/editUserPhoto"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="5dp"
-        android:autofillHints="Phone Number"
-        android:hint="Link da Imagem"
-        android:inputType="textUri"
-        android:paddingHorizontal="5dp"
-        android:paddingVertical="12dp"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toStartOf="@+id/btnSendPhotoUrl"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textTitleUserPhoto" />
+        app:layout_constraintTop_toBottomOf="@+id/editUserName" />
 
     <Button
         android:id="@+id/btnSendUpdate"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="48dp"
-        android:layout_marginTop="72dp"
         android:text="Enviar"
         android:textSize="16sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editUserPhoto" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -99,28 +88,35 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        tools:visibility="visible"
         app:layout_constraintBottom_toTopOf="@+id/btnSendUpdate"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editUserPhoto" />
+        tools:visibility="visible" />
 
     <Button
-        android:id="@+id/btnSendUsername"
-        android:layout_width="wrap_content"
+        android:id="@+id/btnSelectImage"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Enviar"
-        app:layout_constraintBottom_toBottomOf="@+id/editUserName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/editUserName" />
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="5dp"
+        android:text="Selecionar Imagem"
+        app:layout_constraintEnd_toStartOf="@+id/imgSelectPreview"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textTitleUserPhoto" />
 
-    <Button
-        android:id="@+id/btnSendPhotoUrl"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Enviar"
-        app:layout_constraintBottom_toBottomOf="@+id/editUserPhoto"
+    <ImageView
+        android:id="@+id/imgSelectPreview"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginHorizontal="16dp"
+        android:src="@drawable/ic_placeholder_image"
+        android:contentDescription="Imagem de perfil"
+        android:scaleType="centerCrop"
+        android:visibility="gone"
+        tools:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@+id/btnSelectImage"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/editUserPhoto" />
+        app:layout_constraintTop_toTopOf="@+id/btnSelectImage" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

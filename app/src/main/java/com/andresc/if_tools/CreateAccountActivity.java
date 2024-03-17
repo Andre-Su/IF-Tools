@@ -10,13 +10,19 @@ import android.widget.Toast;
 import com.andresc.if_tools.databinding.ActivityCreateAccountBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FieldValue;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 public class CreateAccountActivity extends AppCompatActivity {
 
     private ActivityCreateAccountBinding binding;
     private FirebaseAuth mAuth;
+    private FirebaseFirestore db;
     private FirebaseUser currentUser;
 
     @Override
@@ -44,16 +50,22 @@ public class CreateAccountActivity extends AppCompatActivity {
         // update ui
         binding.progressBar.setVisibility(View.VISIBLE);
         binding.editEmail.setError(null);
+        binding.editUsername.setError(null);
         binding.editPassword.setError(null);
         binding.btnCreateAccount.setClickable(false);
 
         // get text user credentials
         String emailAddress = binding.editEmail.getText().toString(),
+                username = binding.editUsername.getText().toString(),
                 password = binding.editPassword.getText().toString();
 
         // is it valid?
         if(emailAddress.isEmpty()){
             binding.editEmail.setError("Digite o Email");
+            binding.progressBar.setVisibility(View.GONE);
+
+        } else if (username.isEmpty()) {
+            binding.editUsername.setError("Digite o Nome");
             binding.progressBar.setVisibility(View.GONE);
 
         } else if (password.isEmpty()) {
@@ -77,6 +89,7 @@ public class CreateAccountActivity extends AppCompatActivity {
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         // success
+                        currentUser = mAuth.getCurrentUser();
 
                         // update ui
                         binding.progressBar.setVisibility(View.GONE);
@@ -100,6 +113,32 @@ public class CreateAccountActivity extends AppCompatActivity {
                             Toast.makeText(this, "error: "+message, Toast.LENGTH_SHORT).show();
                         }
                     }
+                });
+    }
+    private void insertUserData() {
+        // referência para a coleção "users/{uid}"
+        DocumentReference userDocRef = db.collection("users").document(currentUser.getUid());
+
+        // mapa com os dados a serem inseridos
+        Map<String, Object> userData = new HashMap<>();
+        userData.put("nome", binding.editUsername.getText().toString());
+        userData.put("email", currentUser.getEmail());
+        userData.put("telefone", "");
+        userData.put("fotoperfil", "");
+        userData.put("uid", currentUser.getUid());
+        userData.put("tipo", 3);
+        userData.put("nivel", 3);
+        userData.put("datacriacao", FieldValue.serverTimestamp());
+        userData.put("dataedicao", FieldValue.serverTimestamp());
+
+        // operação de inserção
+        userDocRef.set(userData)
+                .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            //Toast.makeText(this, "Dados do usuário adicionados com sucesso!").show();
+                        } else {
+                            //Toast.makeText(this, "Falha ao adicionar dados do usuário: " + task.getException()).show();
+                        }
                 });
     }
 }

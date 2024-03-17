@@ -31,7 +31,7 @@
         app:layout_constraintTop_toBottomOf="@+id/imgBtnBack" />
 
     <EditText
-        android:id="@+id/editEmail"
+        android:id="@+id/editUsername"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -39,12 +39,28 @@
         android:layout_marginTop="48dp"
         android:paddingVertical="16dp"
         android:ems="10"
+        android:inputType="textPersonName"
+        android:autofillHints="username"
+        android:hint="Nome de Usuário"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textTitle" />
+
+    <EditText
+        android:id="@+id/editEmail"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
+        android:paddingVertical="16dp"
+        android:ems="10"
         android:inputType="textEmailAddress"
         android:autofillHints="emailAddress"
         android:hint="Email"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textTitle" />
+        app:layout_constraintTop_toBottomOf="@+id/editUsername" />
 
     <EditText
         android:id="@+id/editPassword"

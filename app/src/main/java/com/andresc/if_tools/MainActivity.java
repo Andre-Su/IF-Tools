@@ -34,6 +34,18 @@ public class MainActivity extends AppCompatActivity {
         binding.btnReadUserData.setOnClickListener(v -> startActivity(new Intent(this, ShowUserProfileActivity.class)));
         binding.btnEditUserData.setOnClickListener(v -> startActivity(new Intent(this, EditUserDataActivity.class)));
     }
+    /* private ArrayList contentList = new ArrayList();
+     * contentList
+     * 0 datacriacao
+     * 1 dataedicao
+     * 2 email
+     * 3 nome
+     * 4 telefone
+     * 5 fotoperfil
+     * 6 uid
+     * 7 tipo
+     * 8 nivel
+     */
     @Override
     public void onStart() {
         super.onStart();
