@@ -61,6 +61,32 @@
         app:layout_constraintTop_toBottomOf="@+id/textTitleUsername" />
 
     <TextView
+        android:id="@+id/textTitlePhone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="32dp"
+        android:text="Telefone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editUserName" />
+
+    <EditText
+        android:id="@+id/editUserPhone"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="5dp"
+        android:autofillHints="phone"
+        android:hint="Telefone"
+        android:inputType="phone"
+        android:paddingHorizontal="5dp"
+        android:paddingVertical="12dp"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textTitlePhone" />
+
+    <TextView
         android:id="@+id/textTitleUserPhoto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -68,7 +94,7 @@
         android:layout_marginTop="20dp"
         android:text="Imagem de Perfil"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editUserName" />
+        app:layout_constraintTop_toBottomOf="@+id/editUserPhone" />
 
     <Button
         android:id="@+id/btnSendUpdate"
