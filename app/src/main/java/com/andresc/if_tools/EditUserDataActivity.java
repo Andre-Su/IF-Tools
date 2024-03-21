@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.andresc.if_tools.databinding.ActivityEditUserDataBinding;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -25,6 +26,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class EditUserDataActivity extends AppCompatActivity {
 
@@ -34,7 +36,7 @@ public class EditUserDataActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     private FirebaseStorage storage;
     private FirebaseUser currentUser;
-    private ArrayList contentList = new ArrayList();
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,19 +49,23 @@ public class EditUserDataActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         storage = FirebaseStorage.getInstance();
 
+        user = new User();
+
         binding.imgBtnBack.setOnClickListener(v -> finish());
 
+        binding.btnSelectImage.setOnClickListener(v -> openFileChooser());
         getContentLauncher = registerForActivityResult(new GetContentContract(), this::onImageSelected);
+
 
         //TODO: Dividir as instâncias de username e imagem de perfil em partes independentes
         //TODO: Adicionar campos com a classe usuario
 
-        binding.btnSelectImage.setOnClickListener(v -> pickImageFromGallery());
 
     }
 
-    private void collectUserData(){
-        contentList.set(6, currentUser.getUid());
+    private void collectDataFromDatabase(){
+        user.setUserId(currentUser.getUid());
+        user.setPhotoUrl(Objects.requireNonNull(currentUser.getPhotoUrl()).toString());
         db.collection("users").document(currentUser.getUid())
                 // operação de leitura
                 .get()
@@ -68,33 +74,43 @@ public class EditUserDataActivity extends AppCompatActivity {
                             // o documento existe
                             DocumentSnapshot document = task.getResult();
                             if (document.exists()) {
-                                // Faça o que precisar com os dados obtidos
-                                contentList.set(3,currentUser.getDisplayName());
+                                // utilizar os dados obtidos
+                                user.setNome(document.getString("nome"));
+                                binding.editUserName.setText(user.getNome());
                             } else {
                                 // documento inexistente
+                                Toast.makeText(this, "Os dados do usuário ainda não foram criados!", Toast.LENGTH_SHORT).show();
                             }
                         } else {
                             // falha ao conectar
+                            Toast.makeText(this, "Falha em obter dados: "+task.getException(), Toast.LENGTH_SHORT).show();
                         }
                 });
     }
 
     private void updateUserData(){
         // coletar dados
-        // enviar imagem para o firestorage
-        // enviar caminho da imagem e dados editados para o firestore
+        // enviar imagem para o firebase storage
+        // coletar url de download da imagem
+        // enviar url de download da imagem e dados editados para o firestore
         // update ui
     }
-    private void insertUserData() {
+
+    private void collectData(){
+
+    }
+
+    private void uploadUserData() {
         // referência para a coleção "users/{uid}"
         DocumentReference userDocRef = db.collection("users").document(currentUser.getUid());
 
-        // mapa com os dados a serem inseridos
+        // mapa com os dados a serem atualizados
         Map<String, Object> userData = new HashMap<>();
         userData.put("nome", "");
+        userData.put("fotoperfil", user.getPhotoUrl());
         userData.put("dataedicao", FieldValue.serverTimestamp());
 
-        // operação de inserção
+        // operação de upload
         userDocRef.set(userData)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
@@ -104,27 +120,23 @@ public class EditUserDataActivity extends AppCompatActivity {
                     }
                 });
     }
-    private void pickImageFromGallery() {
-        getContentLauncher.launch("");
+
+    private void openFileChooser() {
+        getContentLauncher.launch("image/*");
     }
-    private void onImageSelected(Uri imageUri) {
-        if (imageUri != null) {
-            // A imagem foi selecionada com sucesso
-            // preview
-            Picasso.get()
-                    .load(imageUri)
-                    .placeholder(R.drawable.ic_placeholder_image)
-                    .into(binding.imgSelectPreview);
-            binding.imgSelectPreview.setVisibility(View.VISIBLE);
-            // Faça o que precisar com a URI da imagem, como um upload para o Firebase Storage
-            // uploadImageToFirebase(imageUri);
+
+    private void onImageSelected(Uri selectedImageUri) {
+        if (selectedImageUri != null) {
+            user.setPhotoUri(selectedImageUri);
+            Picasso.get().load(user.getPhotoUri()).into(binding.imgSelectPreview);
         } else {
-            // A seleção da imagem falhou
-            binding.imgSelectPreview.setVisibility(View.GONE);
-            Toast.makeText(this, "Nenhuma imagem selecionada", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "No image selected", Toast.LENGTH_SHORT).show();
         }
     }
-    private void uploadImageToFirebase(Uri fileUri) {
+
+
+    private void uploadImageToFirebase() {
+        Uri fileUri = user.getPhotoUri();
         String filename = "profile_picture." + getFileExtension(fileUri.toString()),
                userId = currentUser.getUid();
 
@@ -132,15 +144,13 @@ public class EditUserDataActivity extends AppCompatActivity {
                 .child("users/"+userId+ "/images/" + filename);
 
         UploadTask uploadTask = storageRef.putFile(fileUri);
-
         uploadTask.addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     // O upload foi bem-sucedido
                     Toast.makeText(this, "Upload de imagem bem-sucedido", Toast.LENGTH_SHORT).show();
-                } else {
-                    // O upload falhou
-                    Toast.makeText(this, "Falha no upload de imagem", Toast.LENGTH_SHORT).show();
-                }
+                    // coletando url de download
+                    storageRef.getDownloadUrl().addOnCompleteListener(task1 -> user.setPhotoUrl(task1.getResult().toString()));
+                } else Toast.makeText(this, "Falha no upload de imagem", Toast.LENGTH_SHORT).show();
             }
         );
     }

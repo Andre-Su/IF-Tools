@@ -1,6 +1,5 @@
 package com.andresc.if_tools;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -8,6 +7,7 @@ import android.net.Uri;
 import androidx.activity.result.contract.ActivityResultContract;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class GetContentContract extends ActivityResultContract<String, Uri> {
 
@@ -20,7 +20,7 @@ public class GetContentContract extends ActivityResultContract<String, Uri> {
 
     @Override
     public Uri parseResult(int resultCode, @Nullable Intent intent) {
-        if (intent == null || resultCode != Activity.RESULT_OK) {
+        if (intent == null || resultCode != AppCompatActivity.RESULT_OK) {
             return null;
         }
         return intent.getData();
