@@ -138,7 +138,7 @@
         android:src="@drawable/ic_placeholder_image"
         android:contentDescription="Imagem de perfil"
         android:scaleType="centerCrop"
-        android:visibility="gone"
+        android:visibility="visible"
         tools:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/btnSelectImage"
         app:layout_constraintEnd_toEndOf="parent"

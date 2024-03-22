@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Toast;
 
 import com.andresc.if_tools.databinding.ActivityEditUserDataBinding;
@@ -92,7 +93,6 @@ public class EditUserDataActivity extends AppCompatActivity {
                                 if (!user.getPhotoUrl().isEmpty()){
                                     Picasso.get()
                                             .load(user.getPhotoUrl())
-                                            .centerCrop()
                                             .into(binding.imgSelectPreview);
                                     user.setPhotoUri(Uri.parse(user.getPhotoUrl()));
                                 }
@@ -119,14 +119,14 @@ public class EditUserDataActivity extends AppCompatActivity {
     }
 
     private void validateData(){
-        String username = binding.editUserName.getText().toString(),
-               phone = binding.editUserPhone.getText().toString();
+        user.setNome(binding.editUserName.getText().toString());
+        user.setPhone(binding.editUserPhone.getText().toString());
 
-        if (username.isEmpty()){
+        if (user.getNome().isEmpty()){
             binding.editUserName.setError("Nome em branco");
             binding.editUserName.requestFocus();
 
-        } else if (phone.isEmpty()) {
+        } else if (user.getPhone().isEmpty()) {
             binding.editUserPhone.setError("Nome em branco");
             binding.editUserPhone.requestFocus();
 
@@ -147,7 +147,7 @@ public class EditUserDataActivity extends AppCompatActivity {
         userData.put("dataedicao", FieldValue.serverTimestamp());
 
         // operação de upload
-        userDocRef.set(userData)
+        userDocRef.update(userData)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         Toast.makeText(this, "Dados do usuário atualizados com sucesso!", Toast.LENGTH_SHORT).show();
@@ -164,7 +164,8 @@ public class EditUserDataActivity extends AppCompatActivity {
     private void onImageSelected(Uri selectedImageUri) {
         if (selectedImageUri != null) {
             user.setPhotoUri(selectedImageUri);
-            Picasso.get().load(user.getPhotoUri()).centerCrop().into(binding.imgSelectPreview);
+            Picasso.get().load(user.getPhotoUri()).placeholder(R.drawable.ic_placeholder_image).into(binding.imgSelectPreview);
+            binding.imgSelectPreview.setVisibility(View.VISIBLE);
         } else {
             Toast.makeText(this, "Imagem não selecionada", Toast.LENGTH_SHORT).show();
         }
@@ -184,7 +185,10 @@ public class EditUserDataActivity extends AppCompatActivity {
                     // O upload foi bem-sucedido
                     Toast.makeText(this, "Upload de imagem bem-sucedido", Toast.LENGTH_SHORT).show();
                     // coletando url de download
-                    storageRef.getDownloadUrl().addOnCompleteListener(task1 -> user.setPhotoUrl(task1.getResult().toString()));
+                    storageRef.getDownloadUrl().addOnCompleteListener(task1 -> {
+                        user.setPhotoUrl(task1.getResult().toString());
+                        Toast.makeText(this, user.getPhotoUrl(), Toast.LENGTH_SHORT).show();
+                    });
                 } else Toast.makeText(this, "Falha no upload de imagem", Toast.LENGTH_SHORT).show();
             }
         );
