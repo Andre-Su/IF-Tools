@@ -49,6 +49,8 @@ public class EditUserDataActivity extends AppCompatActivity {
 
         user = new User();
 
+        collectFromDatabase();
+
         binding.imgBtnBack.setOnClickListener(v -> finish());
 
         binding.btnSendUpdate.setOnClickListener(v -> validateData());
@@ -66,7 +68,7 @@ public class EditUserDataActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        collectFromDatabase();
+//        collectFromDatabase();
     }
 
     private void collectFromDatabase(){
